@@ -1,5 +1,7 @@
 package org.carrental.dao;
 
+//import org.carrental.domain.Booking;
+import org.carrental.domain.Vehicle;
 import org.carrental.domain.VehicleOwner;
 import org.carrental.mapper.CustomerMapper;
 import org.carrental.mapper.VehicleOwnerMapper;
@@ -10,6 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import static org.carrental.dao.BookingSqlQueryConstant.GetAllVehicles;
+import static org.carrental.dao.SqlQueryConstant.GetAllVehiclesOwners;
 import static org.carrental.dao.SqlQueryConstant.INSERT_INTO_VEHICLE_OWNER;
 
 public class VehicleOwnerDAO extends BaseDAO implements ICrud<VehicleOwner>{
@@ -29,11 +33,30 @@ public class VehicleOwnerDAO extends BaseDAO implements ICrud<VehicleOwner>{
             throw new RuntimeException(e);
         }
     }
+    public List<VehicleOwner> getAllVehiclesOwners() {
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from vehicle_owner");
+            return vehicleOwnerMapper.resultSetToList(resultSet);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public List<VehicleOwner> getAll() {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(SqlQueryConstant.GET_ALL_OWNERS);
+            return vehicleOwnerMapper.resultSetToList(rs);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<VehicleOwner> getByName(String name) {
+        try {
+            PreparedStatement ps = conn.prepareStatement("select id,o_name,o_cnic,o_phone_number,o_address,commission from vehicle_owner where o_name like '%"+name+"%';\n");
+            ResultSet rs = ps.executeQuery();
             return vehicleOwnerMapper.resultSetToList(rs);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -63,7 +86,6 @@ public class VehicleOwnerDAO extends BaseDAO implements ICrud<VehicleOwner>{
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public void deleteById(Long id) {
         try {

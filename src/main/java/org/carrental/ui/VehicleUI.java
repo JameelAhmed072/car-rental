@@ -1,7 +1,7 @@
 package org.carrental.ui;
 
-import org.carrental.domain.Customer;
 import org.carrental.service.CustomerService;
+import org.carrental.service.VehicleService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,22 +10,26 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-public class CustomerPanelUi {
-    private final CustomerService customerService = new CustomerService();
-    public CustomerPanelUi() {
+public class VehicleUI {
+    private final VehicleService vehicleService = new VehicleService();
+    public VehicleUI() {
+        JFrame frame = new JFrame("Car Rental APP - VEHICLE Panel");
 
-        JFrame frame = new JFrame("Car Rental APP - Customer Panel");
+
 
         JPanel tblAndSearchPanel = new JPanel();
         tblAndSearchPanel.setBackground(Color.GRAY);
         tblAndSearchPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
         JTextField searchTf = new JTextField(30);
 
-        String data[][]= customerService.getAllCustomerForJTabel();
 
-        String column[]={"Customer-ID","NAME","PHONE_NUMBER","CNIC","ADDRESS","REF_PH_NO"};
+
+        String data[][]= vehicleService.getAllVehicleForJTabel();
+
+        String column[]={"ID","V_NAME","V_Model","V_Brand","V_Color","Owner_Name"};
 
         DefaultTableModel dtm = new DefaultTableModel(data,column);
+
 
         JTable jt = new JTable(dtm);
         JScrollPane sp = new JScrollPane(jt);
@@ -33,58 +37,58 @@ public class CustomerPanelUi {
         tblAndSearchPanel.add(searchTf);
         tblAndSearchPanel.add(sp);
 
+
+
         //   2nd panel
 
         JPanel actionButtonPanel = new JPanel();
         actionButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT,10,10));
-        JButton addCustomerButton = new JButton("ADD");
-        JButton editCustomerButton = new JButton("EDIT");
-        JButton deleteCustomerButton = new JButton("DELETE");
+        JButton addVehicleButton = new JButton("ADD");
+        JButton editVehicleButton = new JButton("EDIT");
+        JButton deleteVehicleButton = new JButton("DELETE");
         JButton back = new JButton("BACK");
 
-        actionButtonPanel.add(addCustomerButton);
-        actionButtonPanel.add(editCustomerButton);
-        actionButtonPanel.add(deleteCustomerButton);
+
+        actionButtonPanel.add(addVehicleButton);
+        actionButtonPanel.add(editVehicleButton);
+        actionButtonPanel.add(deleteVehicleButton);
         actionButtonPanel.add(back);
 
-        addCustomerButton.addActionListener(e->{
+        addVehicleButton.addActionListener(e->{
             frame.dispose();
-            new AddCustomerUI();
+            new AddVehicleUI();
         });
-        editCustomerButton.addActionListener(e->{});
-        editCustomerButton.addActionListener(new ActionListener() {
+        editVehicleButton.addActionListener(e->{});
+        editVehicleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = jt.getSelectedRow();
-//
-
                 // Check if the selected column is the ID column (index 0)
 
                 Integer id = Integer.parseInt((String) jt.getValueAt(selectedRow,0));
 
                 if (selectedRow != -1) {
                     frame.dispose();
-                    new EditCustomerUI(id);
+                    new EditVehicleUI(id);
                 } else {
                     JOptionPane.showMessageDialog(frame, "Please select a row to Update.");
                 }
             }
         });
+
         back.addActionListener(e->{
             frame.dispose();
             new HomeUI();
         });
-        deleteCustomerButton.addActionListener(new ActionListener() {
+        deleteVehicleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Integer selectedCol = 0;
-
                 int selectedRow = jt.getSelectedRow();
-
                 if (selectedRow != -1) {
+                    int column = 0;
                     int row = jt.getSelectedRow();
-                    String value = jt.getModel().getValueAt(row, selectedCol).toString();
-                    customerService.delete(Long.valueOf(value));
+                    String value = jt.getModel().getValueAt(row, column).toString();
+                    vehicleService.delete(Long.valueOf(value));
                     dtm.removeRow(selectedRow);
 
                 } else {
@@ -92,6 +96,7 @@ public class CustomerPanelUi {
                 }
             }
         });
+
         searchTf.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -102,11 +107,13 @@ public class CustomerPanelUi {
             public void keyPressed(KeyEvent e) {
 
             }
+
             @Override
             public void keyReleased(KeyEvent e) {
-                String[][] data = customerService.searchByName(searchTf.getText());
+                String[][] data = vehicleService.searchByName(searchTf.getText());
                 DefaultTableModel dtm = new DefaultTableModel(data, column);
                 jt.setModel(dtm);
+
             }
         });
 
@@ -115,10 +122,15 @@ public class CustomerPanelUi {
         frame.add(tblAndSearchPanel);
         frame.add(actionButtonPanel);
 
+
+
         // basic properties
         frame.setSize(1300,700);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+
+
     }
 }

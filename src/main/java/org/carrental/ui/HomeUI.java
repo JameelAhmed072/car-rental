@@ -7,35 +7,71 @@ public class HomeUI {
     public HomeUI() {
         JFrame frame = new JFrame("Car Rental APP - HOME");
 
-        JPanel btnPanel = new JPanel();  // This is a panel
+        frame.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 
-        btnPanel.setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
+        JButton customerBtn = new JButton("Customer");
+        addImageOnButton(customerBtn,"src/main/resources/customer-icon.png",100,100);
 
-        btnPanel.add(new JButton("1"));
-        btnPanel.add(new JButton("2"));
-        btnPanel.add(new JButton("3"));
-        btnPanel.add(new JButton("4"));
-        btnPanel.add(new JButton("5"));
+        customerBtn.addActionListener(e->{
+            frame.dispose();
+            new CustomerPanelUi();
+        });
+        JButton vehicleBtn = new JButton("Vehicle");
+        addImageOnButton(vehicleBtn,"src/main/resources/car-vehicle-insurance-icon.png",100,100);
+
+        vehicleBtn.addActionListener(e->{
+            frame.dispose();
+            new VehicleUI();
+        });
+
+        JButton vehicleOwnerBtn = new JButton("VehicleOwner");
+        addImageOnButton(vehicleOwnerBtn,"src/main/resources/owner.png",100,100);
+
+        vehicleOwnerBtn.addActionListener(e->{
+            frame.dispose();
+            new VehicleOwnerUI();
+        });
+
+        JButton bookingBtn = new JButton("Booking");
+        addImageOnButton(bookingBtn,"src/main/resources/booking.png",100,100);
+
+        bookingBtn.addActionListener(e -> {
+            frame.dispose();
+            new BookingUI();
+        });
+
+        JButton userBtn = new JButton("User");
+        addImageOnButton(userBtn,"src/main/resources/man.png",100,100);
+
+        JButton reportBtn = new JButton("Report");
+        addImageOnButton(reportBtn,"src/main/resources/seo-report.png",100,100);
+
+        reportBtn.addActionListener(e->{
+            frame.dispose();
+            new ReportsUI();
+        });
+
+        JButton logOutBtn = new JButton("LogOut");
+        addImageOnButton(logOutBtn,"src/main/resources/power-off.png",100,100);
+
+        logOutBtn.addActionListener(e->{
+            frame.dispose();
+            new LoginUI();
+        });
 
 
-        JPanel tablePanel = new JPanel();
-        tablePanel.setLayout(new FlowLayout(FlowLayout.CENTER,10,50));
-
-        String data[][]={ {"101","Amit","670000"},
-                {"102","Jai","780000"},
-                {"101","Sachin","700000"}};
-        String column[]={"ID","NAME","SALARY"};
-
-        JTable jt=new JTable(data,column);
-        JScrollPane sp=new JScrollPane(jt);
-        tablePanel.add(sp,BorderLayout.CENTER);
-
-        frame.setLayout(new BorderLayout(10,50));  // here we will add our layouts
 
 
-        frame.add(btnPanel,BorderLayout.SOUTH);  // adding panel to frame
-        frame.add(tablePanel,BorderLayout.CENTER);
-        frame.add(new JButton("Hello"),BorderLayout.NORTH);
+        frame.add(customerBtn);
+        frame.add(vehicleBtn);
+        frame.add(vehicleOwnerBtn);
+        frame.add(bookingBtn);
+        frame.add(userBtn);
+        frame.add(logOutBtn);
+        frame.add(reportBtn);
+
+
+
 
         // basic properties
         frame.setSize(1300,700);
@@ -43,4 +79,12 @@ public class HomeUI {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
+    private static void addImageOnButton(JButton button, String imagePath, int height, int width) {
+        ImageIcon imageIcon = new ImageIcon(imagePath);
+        Image newImage = imageIcon.getImage().getScaledInstance(width,height,Image.SCALE_SMOOTH);
+        button.setIcon(new ImageIcon(newImage));
+    }
+
+
 }

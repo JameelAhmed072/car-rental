@@ -2,6 +2,7 @@ package org.carrental;
 
 import org.carrental.dao.CustomerDAO;
 import org.carrental.dao.VehicleOwnerDAO;
+//import org.carrental.domain.Booking;
 import org.carrental.domain.Customer;
 import org.carrental.domain.VehicleOwner;
 import org.carrental.mapper.CustomerMapper;
@@ -10,18 +11,25 @@ import org.carrental.ui.LoginUI;
 
 public class Main {
     public static void main(String[] args) {
+        //  3tyre architecture ==> this is
+
+
+        // ui -> service -> dao -> mapper -> domain
         //  DAO(Repository) data access object package ==> yaha sub kaam jo database see related o
         //  Domain package ==>sub concept ki classes yaha ayeenge  e.g booking,customer,vehicle etc
         //  Servie package ==> yaha kohi b business logic ogi too woo yaha oga, actual logic if, for loop etc
         //  mapper package ==>  iss meee classes onnge, jab app iss me ResultSet pass karooge too apko object deenge aur apko uss object see jooo chaeeyee woo app waha baana kar use kar sakte ha
 
 
-//        CustomerDAO customerDAO = new CustomerDAO();
+
+
+
+                CustomerDAO customerDAO = new CustomerDAO();
 
 
         //   ----------    getAll()   method Start ---------------------------------------//
 
-//                customerDAO.getAll().forEach(System.out::println);
+//                         customerDAO.getAll().forEach(System.out::println);
 
         //   ----------    getAll()   method End ---------------------------------------//
 
@@ -100,7 +108,7 @@ public class Main {
         //   -------------------------------------------------------------------//
         //  Swing
 //        LoginUI login = new LoginUI();  //  or
-
+//
 //        new LoginUI();  // ananomyus object
 
 

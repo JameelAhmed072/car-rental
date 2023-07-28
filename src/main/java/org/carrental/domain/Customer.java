@@ -13,6 +13,7 @@ public class Customer {
     private String phoneNumber;
     private String cnic;
     private String address;
+    private String cstatus;
     private String referencePhoneNumber;
 
 }
